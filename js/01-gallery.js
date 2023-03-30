@@ -1,10 +1,6 @@
 import { galleryItems } from "./gallery-items.js";
-// Change code below this line
-
-console.log(galleryItems);
 
 const galleryEl = document.querySelector(".gallery");
-galleryEl.addEventListener("click", (e) => e.preventDefault());
 
 galleryItems.forEach((image) => {
   const listEl = `<div class="gallery__item">
@@ -21,21 +17,22 @@ galleryItems.forEach((image) => {
   galleryEl.insertAdjacentHTML("beforeend", listEl);
 });
 
-galleryEl.querySelectorAll(".gallery__link").forEach((link) => {
-  link.onclick = (e) => {
-    e.preventDefault();
-    basicLightbox
-      .create(
-        `
-      <img src="${e.target.dataset.source}" alt="${e.target.alt}" />
-    `
-      )
-      .show();
-  };
-});
+galleryEl.addEventListener("click", (e) => {
+  e.preventDefault();
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && basicLightbox.visible()) {
-    basicLightbox.close();
-  }
+  const instance = basicLightbox.create(
+    `
+    <img src="${e.target.dataset.source}" alt="${e.target.alt}" />
+    `,
+    {
+      onShow: (instance) => {
+        instance.element().addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && instance.visible()) {
+            return instance.close();
+          }
+        });
+      },
+    }
+  );
+  instance.show();
 });
