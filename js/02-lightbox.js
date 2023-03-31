@@ -23,5 +23,4 @@ galleryEl.addEventListener("click", (e) => {
 const lightbox = new SimpleLightbox(".gallery li a", {
   captionsData: "alt",
   captionDelay: 250,
-  animationSpeed: 500,
 });

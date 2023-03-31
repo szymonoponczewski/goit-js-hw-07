@@ -21,18 +21,15 @@ galleryEl.addEventListener("click", (e) => {
   e.preventDefault();
 
   const instance = basicLightbox.create(
+    ` <img src="${e.target.dataset.source}" alt="${e.target.alt}" />
     `
-    <img src="${e.target.dataset.source}" alt="${e.target.alt}" />
-    `,
-    {
-      onShow: (instance) => {
-        instance.element().addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && instance.visible()) {
-            return instance.close();
-          }
-        });
-      },
-    }
   );
+
   instance.show();
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && instance.visible()) {
+      instance.close();
+    }
+  });
 });
